@@ -1,5 +1,5 @@
 const crypto = require("crypto"),
-    uuidv4 = require("uuid/v4"),
+    {v4: uuidV4} = require("uuid/v4"),
     converter = require("hex2dec"),
     bigInt = require("big-integer"),
     cryptoUtils = module.exports;
@@ -10,7 +10,7 @@ cryptoUtils.generatePasskey = (username, password) => {
     return crypto.pbkdf2Sync(sha1Password, salt, 8192, 16, "sha1").toString("hex");
 };
 cryptoUtils.generateUUID = () => {
-    let uuid = uuidv4();
+    let uuid = uuidV4();
     //remove the dashes
     let bytes = Buffer.from(uuid.replace(/-/g, ""), "hex");
     let msb = bigInt(converter.hexToDec(bytes.slice(0, 8).toString("hex")));
