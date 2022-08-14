@@ -10,8 +10,14 @@ module.exports = (client, callbacks, id, data) => {
         }else if(data.find("is-typing")){
             client.emit("grouptyping", groupJid, userJid, data.find("is-typing").attrs.val === "true");
         }else if(data.find("images")){
-            client.emit("receivedgroupimg", groupJid, userJid, client.imgManager.getImg(data.find("file-url").text,
-                false, groupJid));
+            const fileUrl = data.find("file-url")?.text;
+            const gifUrls = JSON.stringify(data.find("uris")?.text.split("http").slice(1).map(uri => `http${uri}`));
+
+            if (fileUrl) {
+                client.emit("receivedgroupimg", groupJid, userJid, fileUrl);
+            } else {
+                client.emit("receivedgroupgif", groupJid, userJid, gifUrls);
+            }
         }else if(data.find("status")){
             let status = data.find("status");
             //userJid and groupJid are different for status
@@ -38,8 +44,14 @@ module.exports = (client, callbacks, id, data) => {
         }else if(type === "is-typing"){
             client.emit("privatetyping", userJid, data.find("is-typing").attrs.val === "true");
         }else if(data.find("images")){
-            client.emit("receivedprivateimg", userJid, client.imgManager.getImg(data.find("file-url").text,
-                true, userJid));
+            const fileUrl = data.find("file-url")?.text;
+            const gifUrls = JSON.stringify(data.find("uris")?.text.split("http").slice(1).map(uri => `http${uri}`));
+
+            if(fileUrl){
+                client.emit("receivedprivateimg", userJid, fileUrl);
+            }else{
+                client.emit("receivedprivategif", userJid, gifUrls);
+            }
         }
     }else if(type === "receipt"){
         let receipt = data.find("receipt").attrs.type;
