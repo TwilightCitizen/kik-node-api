@@ -1,5 +1,5 @@
 const crypto = require("crypto"),
-    {v4: uuidV4} = require("uuid/v4"),
+    {v4: uuidV4} = require("uuid"),
     converter = require("hex2dec"),
     bigInt = require("big-integer"),
     cryptoUtils = module.exports;
