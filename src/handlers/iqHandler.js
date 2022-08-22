@@ -93,8 +93,7 @@ module.exports = (client, callbacks, id, data) => {
             let parsedUsers;
             if(users){
                 parsedUsers = users
-                    .map(({ backgroundProfilePicExtension, registrationElement, kinUserIdElement }) => ({
-                        kinUserId: kinUserIdElement.kinUserId.id,
+                    .map(({ backgroundProfilePicExtension, registrationElement }) => ({
                         registrationTimestamp: registrationElement.creationDate.seconds.low,
                         backgroundPic: backgroundProfilePicExtension &&
                             backgroundProfilePicExtension.extensionDetail.pic
@@ -104,7 +103,6 @@ module.exports = (client, callbacks, id, data) => {
                     .map(({ publicGroupMemberProfile }) => ({
                         displayName: publicGroupMemberProfile.displayName &&
                             publicGroupMemberProfile.displayName.displayName,
-                        kinUserId: publicGroupMemberProfile.kinUserIdElement.kinUserId.id,
                         registrationTimestamp: publicGroupMemberProfile.registrationElement.creationDate.seconds.low,
                     }));
             }
