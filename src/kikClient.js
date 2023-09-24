@@ -31,8 +31,8 @@ module.exports = class KikClient extends EventEmitter {
         super();
 
         this.dataHandler = new DataHandler(this);
-        const {file, console} = params.logger || {};
-        this.logger = new Logger(file, console, "_ANON_");
+        const {fileTypes, consoleTypes} = params.logger || {};
+        this.logger = new Logger(fileTypes, consoleTypes, "_ANON_");
         //this session is temporary and will be replaced by the saved session if user logs in
         this.session = sessionUtils.createSession();
 
